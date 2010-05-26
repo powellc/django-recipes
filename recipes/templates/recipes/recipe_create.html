@@ -1,0 +1,36 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Share a recipe at {% endblock %}
+
+{% block content %}
+<div class="recipes span-22">
+	<h2><span>Highland Foods Recipe Exchange</span></h2>
+	<h3>Share a recipe with us!</h3>
+	<p>Fill out the form below and press submit below to share your favorite recipe using the unique flavor of Maple Pepper &reg; spices. Be sure to "tag" your recipes to help other people find it. For example, if it's a dinner dish, add the tag "dinner." Does it use pork, why not tag it with "pork."</p>
+	<p>You may also leave the author blank if you would like your submission to be anonymous. However, you are required to add a title, directions and tags.</p>
+	<form method="POST" action="">
+	
+		{{ form.media }}
+	  {{form.as_p}}
+	
+	<p>All submitted recipes must be approved before they appear on the site. Thank you for taking the time to share your ideas! Check back again for more ideas on how to use Maple Pepper &reg; to spice up your cooking.</p>
+	
+	<p>Please enter the words you see, so we can make sure you are a real person:</p>
+	<script type="text/javascript"
+	   src="http://api.recaptcha.net/challenge?k=6LfzLLoSAAAAABmHwDZCvZ6QFbcWLHCwi3_ya4K3">
+	</script>
+
+	<noscript>
+	   <iframe src="http://api.recaptcha.net/noscript?k="
+	       height="300" width="500" frameborder="0"></iframe><br>
+	   <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+	   </textarea>
+	   <input type="hidden" name="recaptcha_response_field" 
+	       value="manual_challenge">
+	</noscript>
+	
+	<input type="submit" value="Submit recipe" /> or <a href="{% url recipes-index %}">cancel</a>
+	</form>
+</div>
+
+{% endblock %}

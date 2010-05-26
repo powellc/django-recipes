@@ -1,0 +1,44 @@
+{% extends "recipes/base.html" %}
+
+{% block content %}
+{% load markup typogrify tagging_tags %}
+  <div class="recipes span-15 colborder">
+  <h2><span>Highland Foods Recipes</span></h2>
+  <h3>All recipes tagged with &ldquo;{{tag}}&rdquo;</h3>
+        {% if recipes_list %}
+    {% for r in recipes_list %}
+    <div class="post">
+          {% if user.is_staff %}
+          {% if not r.approved  %}
+                <form method="POST" action="">
+                <p class="warning">This recipe has not been approved yet. <input class="approval" type="submit" value="Approve" /> <input class="delete" name="delete" type="submit" value="Delete" /></p>
+                <input type="hidden" name="id" value="{{r.id}}">
+                <input type="hidden" name="approval" value="True" />
+                </form>
+          {% else %}
+                <form method="POST" action="">
+                <p class="notice">This recipe is approved. <input class="approval" type="submit" value="Unapprove" /> </p>
+                <input type="hidden" name="id" value="{{r.id}}">
+                <input type="hidden" name="approval" value="False" />
+                </form>
+          {% endif %}
+          {% endif %}
+      <h3 class="title"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
+          {% if r.ingredients %}
+          <h4>Ingredients</h4>
+          {{ r.ingredients|typogrify|markdown }}
+          {% endif %}
+          <h4>Directions</h4>
+          {{ r.directions|typogrify|markdown }}
+          <ul class="tags">
+            <li>Tags:</li>
+                {% tags_for_object r as tags %}
+                {% for tag in tags %}
+            <li><a href="{% url recipes-tag-detail tag %}">{{tag}}</a></li>
+                {% endfor %}
+          </ul>
+    </div>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}

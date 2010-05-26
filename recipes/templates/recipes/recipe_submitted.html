@@ -1,0 +1,14 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Thank you!{% endblock %}
+
+{% block content %}
+<div class="recipes span-22 colborder">
+	<h2><span>Highland Foods Recipe Exchange</span></h2>
+	<h3>Thanks for sharing!</h3>
+	<p>Thanks for sharing your recipe with us!</p>
+	<p>We'll review recipes periodically, so you should see yours on the site in a little while.</p>
+	<p>For now, <a href="{% url recipes-index %}">head on back to the recipes</a>.</p>
+</div>
+
+{% endblock %}

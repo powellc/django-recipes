@@ -1,0 +1,65 @@
+{% extends "recipes/base.html" %}
+
+{% block content %}
+{% load markup typogrify tagging_tags %}
+  <div class="recipes span-15 colborder">
+  <h2><span>Highland Foods Recipes</span></h2>
+    {% for r in recipes %}
+    <div class="post">
+	  {% if not r.approved  %}
+		<form method="POST" action="{% url recipes-approve %}">
+		<p class="warning">This recipe has not been approved yet. <input class="approval" type="submit" value="Approve it" /></p>
+		<input type="hidden" name="id" value="{{r.id}}">
+		<input type="hidden" name="approved" value="True" />
+		</form>
+	  {% else %}
+	  	<form method="POST" action="{% url recipes-approve %}">
+		<p class="notice">This recipe is approved. <input class="approval" type="submit" value="Unapprove it" /></p>
+		<input type="hidden" name="id" value="{{r.id}}">
+		<input type="hidden" name="approved" value="False" />
+		</form>
+	  {% endif %}
+      <h3 class="title"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
+	  {% if r.ingredients %}
+	  <h4>Ingredients</h4>
+	  {{ r.ingredients|typogrify|markdown }}
+	  {% endif %}
+	  <h4>Directions</h4>
+	  {{ r.directions|typogrify|markdown }}
+	  <ul class="tags">
+		{% tags_for_object r as tags %}	
+		{% for tag in tags %}
+	    <li><a href="{{tag.get_absolute_url}}">{{tag}}</a></li>
+	  	{% endfor %}
+	  </ul>
+    </div>
+    {% endfor %}
+
+  
+  {% if is_paginated %}
+  <p class="pagination">
+    {% if has_next %}
+    <a class="older" href="?page={{ next }}">Older</a>
+    {% endif %}
+    {% if has_next and has_previous %} | {% endif %}
+    {% if has_previous %}
+    <a class="newer" href="?page={{ previous }}">Newer</a>
+    {% endif %}
+  </p>
+  {% endif %}
+  </div>
+{% endblock %}
+
+{% block sidebar %}
+  <div id="sidebar" class="span-6 last">
+
+    <p>Welcome to the administrative page for recipes. Here you can approve or unapprove recipes, allowing website visitors to see or not see them, respectively.</p>
+
+    <h2>Filter recipes</h2>
+	<p><a href="{% url recipes-admin %}">All</a></p>
+	<p><a href="{% url recipes-admin %}approved">Approved</a></p>
+	<p><a href="{% url recipes-admin %}unapproved">Unapproved</a></p>
+
+  </div>
+{% endblock %}
+
