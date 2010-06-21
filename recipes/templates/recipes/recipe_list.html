@@ -7,7 +7,7 @@
   <h3>All recipes tagged with &ldquo;{{tag}}&rdquo;</h3>
         {% if recipes_list %}
     {% for r in recipes_list %}
-    <div class="post">
+    <div class="post hrecipe">
           {% if user.is_staff %}
           {% if not r.approved  %}
                 <form method="POST" action="">
@@ -23,13 +23,27 @@
                 </form>
           {% endif %}
           {% endif %}
-      <h3 class="title"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
+      <h3 class="title fn"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
+		  {% if r.author %}
+			<p>From {% if r.email %}<a href="mailto:{{r.email}}" class="author vcard">
+					{% else %}<span class="author">{% endif %}
+						{{r.author}}
+					{% if r.email %}</a>{% else %}</span>{% endif %}</p>{% endif %}
+		  {% if r.description %}
+		  <div class="summary">
+		  	{{ r.description|typogrify|markdown }}
+		  </div>
+		  {% endif %}
           {% if r.ingredients %}
           <h4>Ingredients</h4>
+		  <div class="ingredient">
           {{ r.ingredients|typogrify|markdown }}
+ 		  </div>
           {% endif %}
           <h4>Directions</h4>
+		  <div class="instructions">
           {{ r.directions|typogrify|markdown }}
+		  </div>
           <ul class="tags">
             <li>Tags:</li>
                 {% tags_for_object r as tags %}

@@ -27,9 +27,11 @@ class ApprovedManager(models.Manager):
 class Recipe(StandardMetadata):
     title = models.CharField(max_length=50)
     slug = models.SlugField(unique=True, max_length=50)
+    description = models.TextField(_('description'), blank=True, null=True)
     ingredients = models.TextField(_('ingredients'), blank=True, null=True)
     directions = models.TextField(_('directions'))
     author = models.CharField(max_length=50, blank=True, null=True)
+    email = models.EmailField(_('email'), blank=True, null=True)
     approved = models.BooleanField(_('approved'))
     tags = TagField()
     

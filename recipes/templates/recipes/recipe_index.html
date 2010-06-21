@@ -6,7 +6,7 @@
   <h2><span>Highland Foods Recipes</span></h2>
 	{% if recipes %}
     {% for r in recipes %}
-    <div class="post">
+    <div class="post hrecipe">
 	  {% if user.is_staff %}
 	  {% if not r.approved  %}
 		<form method="POST" action="">
@@ -22,20 +22,36 @@
 		</form>
 	  {% endif %}
 	  {% endif %}
-      <h3 class="title"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
-	  {% if r.ingredients %}
-	  <h4>Ingredients</h4>
-	  {{ r.ingredients|typogrify|markdown }}
-	  {% endif %}
-	  <h4>Directions</h4>
-	  {{ r.directions|typogrify|markdown }}
-	  <ul class="tags">
-	    <li>Tags:</li>
-		{% tags_for_object r as tags %}	
-		{% for tag in tags %}
-	    <li><a href="{% url recipes-tag-detail tag %}">{{tag}}</a></li>
-	  	{% endfor %}
-	  </ul>
+ 	  <h3 class="title fn"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
+		  {% if r.author %}
+			<p>From <span class="author">{{r.author}}</span></p>{% endif %}
+		  {% if r.description %}
+		  <div class="summary">
+		  	{{ r.description|typogrify|markdown }}
+		  </div>
+		  {% endif %}
+          {% if r.ingredients %}
+          <h4>Ingredients</h4>
+		  <div class="ingredient">
+          {{ r.ingredients|typogrify|markdown }}
+ 		  </div>
+		  {% else %}
+		  <p style="display:none;" class="ingredient">None</p>
+          {% endif %}
+          <h4>Directions</h4>
+		  <div class="instructions">
+          {{ r.directions|typogrify|markdown }}
+		  </div>
+          {% tags_for_object r as tags %}
+		  {% if tags %}
+          <ul class="tags">
+            <li>Tags:</li>
+
+                {% for tag in tags %}
+            <li><a href="{% url recipes-tag-detail tag %}">{{tag}}</a></li>
+                {% endfor %}
+          </ul>
+		  {% endif %}
     </div>
     {% endfor %}
 	

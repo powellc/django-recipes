@@ -80,6 +80,7 @@ def recipe_detail(request, slug):
                               context_instance=RequestContext(request))
 
 def recipe_create(request):
+    captcha_public_key=settings.RECAPTCHA_PUBLIC_KEY
     form=RecipeForm(request.POST or None)
     # Initialize to an empty string, not None, so the reCAPTCHA call query string
     # will be correct if there wasn't a captcha error on POST.
@@ -93,6 +94,7 @@ def recipe_create(request):
 
     if not captcha_response.is_valid:
         captcha_error = "&error=%s" % captcha_response.error_code
+        print captcha_response.error_code
     elif form.is_valid():
         recipe=form.save(commit=False)
         recipe.approved=False
