@@ -4,58 +4,49 @@
 {% load markup typogrify tagging_tags %}
   <div class="recipes span-15 colborder">
   <h2><span>Highland Foods Recipes</span></h2>
-  <h3>All recipes tagged with &ldquo;{{tag}}&rdquo;</h3>
-        {% if recipes_list %}
-    {% for r in recipes_list %}
     <div class="post hrecipe">
-          {% if user.is_staff %}
-          {% if not r.approved  %}
+          {% if userecipe.is_staff %}
+          {% if not recipe.approved  %}
                 <form method="POST" action="">
                 <p class="warning">This recipe has not been approved yet. <input class="approval" type="submit" value="Approve" /> <input class="delete" name="delete" type="submit" value="Delete" /></p>
-                <input type="hidden" name="id" value="{{r.id}}">
+                <input type="hidden" name="id" value="{{recipe.id}}">
                 <input type="hidden" name="approval" value="True" />
                 </form>
           {% else %}
                 <form method="POST" action="">
                 <p class="notice">This recipe is approved. <input class="approval" type="submit" value="Unapprove" /> </p>
-                <input type="hidden" name="id" value="{{r.id}}">
+                <input type="hidden" name="id" value="{{recipe.id}}">
                 <input type="hidden" name="approval" value="False" />
                 </form>
           {% endif %}
           {% endif %}
-      <h3 class="title fn"><a href="{{ r.get_absolute_url }}">{{ r.title }}</a></h3>
-		  {% if r.author %}
-			<p>From {% if r.email %}<a href="mailto:{{r.email}}" class="author vcard">
-					{% else %}<span class="author">{% endif %}
-						{{r.author}}
-					{% if r.email %}</a>{% else %}</span>{% endif %}</p>{% endif %}
-		  {% if r.description %}
+      <h3 class="title fn"><a href="{{ recipe.get_absolute_url }}">{{ recipe.title }}</a></h3>
+		  {% if recipe.author %}<p>From <span class="author">{{recipe.author}}</span></p>{% endif %}
+		  {% if recipe.description %}
 		  <div class="summary">
-		  	{{ r.description|typogrify|markdown }}
+		  	{{ recipe.description|typogrify|markdown }}
 		  </div>
 		  {% endif %}
-          {% if r.ingredients %}
+          {% if recipe.ingredients %}
           <h4>Ingredients</h4>
 		  <div class="ingredient">
-          {{ r.ingredients|typogrify|markdown }}
+          {{ recipe.ingredients|typogrify|markdown }}
  		  </div>
           {% endif %}
           <h4>Directions</h4>
 		  <div class="instructions">
-          {{ r.directions|typogrify|markdown }}
+          {{ recipe.directions|typogrify|markdown }}
 		  </div>
           <ul class="tags">
             <li>Tags:</li>
-                {% tags_for_object r as tags %}
+                {% tags_for_object recipe as tags %}
                 {% for tag in tags %}
             <li><a href="{% url recipes-tag-detail tag %}">{{tag}}</a></li>
                 {% endfor %}
           </ul>
     </div>
-   {% endfor %}
-  {% endif %}
-<p><a href="{% url recipes-index %}" alt="Back to recipe list">Back to recipe list</a><p>
 
+<p><a href="{% url recipes-index %}" alt="Back to recipe list">Back to recipe list</a><p>
 </div>
 {% endblock %}
 

@@ -76,24 +76,17 @@
 
 {% block sidebar %}
   <div id="sidebar" class="span-6 last">
-	{% if user.is_staff %}
+    {% if user.is_staff %}
     <h2>Filter recipes</h2>
-        <p>This list is here because you are logged in as an administrator. Use the filter setting below to view unapproved recipes and set them to be approved to be viewable by the public.</p>
-	<p><a href="{% url recipes-index %}">All</a></p>
-	<p><a href="{% url recipes-index %}approved">Approved</a></p>
-	<p><a href="{% url recipes-index %}unapproved">Unapproved</a></p>
-	<p>Note: You must unapprove a recipe before it can be deleted.</p>
-	{% endif %}
-    <h2>Have a recipe?</h2>
-    <p>We'd love to hear how you're using Maple Pepper &reg; to spice up you favorite dish. Or, have you come up with a completely original dish using the subtly sweet taste of Maple Pepper &reg;? Let other know how your using it.</p>
-		<p><a href="{% url recipes-create %}">Add a recipe</a></p>
-    <h2>View by tag</h2>
-    {% tag_cloud_for_model recipes.Recipe as recipe_tags with steps=3 min_count=1 distribution=log %}
-    <ul class="recipe_tag_cloud">
-    {% for tag in recipe_tags %}
-      <li><a href="{% url recipes-tag-detail tag %}" alt="{{tag}}">{{tag}}</a></li>
-    {% endfor %}
-    </ul>
+        <p>This list is here because you are logged in as an administrator. Use the filter setting below to view unapproved recipes and set them to be approved to be viewable by the 
+public.</p>
+        <p><a href="{% url recipes-index %}">All</a></p>
+        <p><a href="{% url recipes-index %}approved">Approved</a></p>
+        <p><a href="{% url recipes-index %}unapproved">Unapproved</a></p>
+        <p>Note: You must unapprove a recipe before it can be deleted.</p>
+        {% endif %}
+
+        {% include "recipes/includes/sidebar.html" %}
   </div>
 {% endblock %}
 

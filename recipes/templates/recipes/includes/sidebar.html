@@ -1,0 +1,13 @@
+{% load tagging_tags %}
+
+    <h2>Have a recipe?</h2>
+    <p>We'd love to hear how you're using Maple Pepper ® to spice up you favorite dish. Or, have you come up with a completely original dish using the subtly sweet taste of Maple Pepper®? Let other know how your using it.</p>
+    <p><a href="{% url recipes-create %}">Add a recipe</a></p>
+    <h2>View by tag</h2>
+    {% tag_cloud_for_model recipes.Recipe as recipe_tags with steps=3 min_count=1 distribution=log %}
+    <ul class="recipe_tag_cloud">
+    {% for tag in recipe_tags %}
+      <li><a href="{% url recipes-tag-detail tag %}" alt="{{tag}}">{{tag}}</a></li>
+    {% endfor %}
+    </ul>
+
