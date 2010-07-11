@@ -10,7 +10,7 @@ class RecipeForm(forms.ModelForm):
     ingredients = forms.CharField(widget=MarkItUpWidget())
     directions = forms.CharField(widget=MarkItUpWidget())
     tags = TagField(widget=MakeAutoCompleteTagInput(Recipe))
-    captcha = ReCaptchaField(label="Please fill this out to verify you are are a real person.")
+    captcha = ReCaptchaField(label="Please let us know you are a real person")
 
     class Meta:
         model=Recipe
