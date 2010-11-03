@@ -43,7 +43,7 @@ class Recipe(StandardMetadata):
     
     class Meta:
         
-        ordering = ['title']
+        ordering = ['-created', 'title']
     
     @models.permalink
     def get_absolute_url(self):
