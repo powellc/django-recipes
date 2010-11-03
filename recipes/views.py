@@ -82,20 +82,8 @@ def recipe_detail(request, slug):
 def recipe_create(request):
     captcha_public_key=settings.RECAPTCHA_PUBLIC_KEY
     form=RecipeForm(request.POST or None)
-    # Initialize to an empty string, not None, so the reCAPTCHA call query string
-    # will be correct if there wasn't a captcha error on POST.
-    captcha_error = ""
 
-    captcha_response = \
-    captcha.submit(request.POST.get("recaptcha_challenge_field", None),
-    request.POST.get("recaptcha_response_field", None),
-    settings.RECAPTCHA_PRIVATE_KEY,
-    request.META.get("REMOTE_ADDR", None))
-
-    if not captcha_response.is_valid:
-        captcha_error = "&error=%s" % captcha_response.error_code
-        print captcha_response.error_code
-    elif form.is_valid():
+    if form.is_valid():
         recipe=form.save(commit=False)
         recipe.approved=False
         recipe.slug=slugify(recipe.title)
