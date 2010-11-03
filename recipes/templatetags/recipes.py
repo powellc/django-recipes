@@ -5,10 +5,10 @@ from django import template
 from django.conf import settings
 from django.db import models
 
-Recipe = models.get_model('recipes', 'recipe')
+from recipes.models import Recipe
+#Recipe = models.get_model('recipes', 'recipe')
 
 register = template.Library()
-
 
 class LatestRecipes(template.Node):
     def __init__(self, limit, var_name):
@@ -22,7 +22,6 @@ class LatestRecipes(template.Node):
         else:
             context[self.var_name] = recipes
         return ''
-
 
 @register.tag
 def get_latest_recipes(parser, token):
